@@ -91,6 +91,7 @@ def greedy(fd, basefeats, basemodes, correct):
         if bestsol[2] == 0:
             break
     print("Greedy solution:", bestfeatures)
+    # print("sols is "+str(sols))
 
 
 ##############################################################################
