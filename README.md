@@ -3,7 +3,7 @@ This is a calculator of phonemic similarity I programmed for my project on gradi
 - The basic usage is: 
   1. ```
   cd [the directory]
-  ```
+  
   2. ```
   python3 similarity.py
   ```
