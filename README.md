@@ -16,3 +16,4 @@ cd [your directory]
 python3 similarity.py yourfeaturefile.txt
 ``` 
 
+If you want to commit to this program, remember only similarity.py matters. Other files are kept for my own research purpose.
