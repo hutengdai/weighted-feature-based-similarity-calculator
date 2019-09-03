@@ -86,10 +86,10 @@ def simiarity(segment1, segment2,total_feature,dlist):
                 
                 
 if __name__ == '__main__':
-    with open("lezgian.txt", 'r', encoding='utf-8') as featurefile:
+    with open(filepath, 'r', encoding='utf-8') as featurefile:
         feat_file = featurefile.readlines()
         features = feat_file.pop(0).lstrip("\t").rstrip("\n").split("\t")
-        segsFeats = segsFeats("lezgian.txt")  
+        segsFeats = segsFeats(filepath)  
     # print(len(features))
     # dlist = {'+cg': 0.4,
     #          '-cg': 0.3,
