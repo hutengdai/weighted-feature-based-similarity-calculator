@@ -1,4 +1,5 @@
 import re
+import sys
 import numpy as np
 import pandas as pd
 
@@ -86,6 +87,18 @@ def simiarity(segment1, segment2,total_feature,dlist):
                 
                 
 if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print("Usage: " + sys.argv[0] + " [-v] yourfeaturefile.txt")
+        quit()  
+
+    verbose = False
+    i = 1
+    if sys.argv[1] == '-v':
+        verbose = True
+        i += 1
+            
+    filepath = sys.argv[i]
+    
     with open(filepath, 'r', encoding='utf-8') as featurefile:
         feat_file = featurefile.readlines()
         features = feat_file.pop(0).lstrip("\t").rstrip("\n").split("\t")
