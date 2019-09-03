@@ -2,11 +2,11 @@
 This is a calculator of phonemic similarity I programmed for my project on gradient symbolic representation. 
 - The basic usage is: 
 1.
-```console
+```bash
 cd [your directory]
 ```
 2.
-```console
+```bash
 python3 similarity.py
 ```
   
