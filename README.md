@@ -10,6 +10,7 @@ This is a calculator of phonemic similarity I programmed for my project on gradi
 ```bash
 cd [your directory]
 ```
+
   3. Run the python program: Type following code in your Command Line tools or Terminal. 
 ```bash
 python3 similarity.py yourfeaturefile.txt
