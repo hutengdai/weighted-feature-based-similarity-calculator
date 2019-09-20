@@ -137,12 +137,14 @@ if __name__ == '__main__':
     # consoant = [p,t,k,q,ʔ,b,d,ɡ,t͡s,t͡ʃ,f,s,ʃ,x,χ,h,z,ʒ,ʁ,m,n,r,j,l,w,i,y,u,e,ӕ,a,pʰ,pʼ,tʼ,tʰ,tʰʷ,tʷʼ,tʷ,t͡sʰ,t͡sʼ,t͡sʰʷ,t͡sʷʼ,t͡sʷ,sʷ,zʷ,t͡ʃʼ,t͡ʃʰ,kʰ,kʼ,kʷ,kʷʼ,kʰʷ,ɡʷ,χʷ,qʼ,qʰ,qʷ,qʷʼ,qʰʷ,ʁʷ]
     consonant = list(segsFeats.keys())
 
-    df = writedataframe(consonant,28,dlist)
-    print(df)
+    # df = writedataframe(consonant,28,dlist)
+    # print(df)
     # print(simiarity('p',"pʼ", 28, dlist)) #0.1
     # print(simiarity('p',"b", 28, dlist)) #0.2
     # print(simiarity('p',"pʰ", 28, dlist)) #0.3
-
+    print(simiarity('q',"t͡sʼ", 28, dlist)) 
+    print(simiarity('qʼ',"t͡sʼ", 28, dlist)) 
+    print(simiarity('q',"t͡s", 28, dlist)) 
     # print(similarity_etc)
 
     
