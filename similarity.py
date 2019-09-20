@@ -98,7 +98,8 @@ if __name__ == '__main__':
         i += 1
             
     filepath = sys.argv[i]
-    
+
+    # with open("Features.txt", 'r', encoding='utf-8') as featurefile:
     with open(filepath, 'r', encoding='utf-8') as featurefile:
         feat_file = featurefile.readlines()
         features = feat_file.pop(0).lstrip("\t").rstrip("\n").split("\t")
