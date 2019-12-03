@@ -56,13 +56,13 @@ def wlist2feature(word, segsFeats):
     return res
 
 
-def simiarity(segment1, segment2,total_feature,dlist):
+def simiarity(segment1, segment2,dlist):
     m = 0
     n = 0
     shared_features = []
     a = segsFeats.get(segment1)
     b = segsFeats.get(segment2)
-    # print("There are "+str(len(a))+" features in a")
+    # print("There are "+str(len(b))+" features in b")
     for feature_a in a:
         for feature_b in b:
             if feature_a == feature_b:
@@ -76,28 +76,30 @@ def simiarity(segment1, segment2,total_feature,dlist):
 
     unshared_features_raw = []
     unshared_features_final = []
+
     for feature_value_a in unshared_feature_value_a:
         for feature_value_b in unshared_feature_value_b:
             unshared_features_raw.append(feature_value_a[1:])
             unshared_features_raw.append(feature_value_b[1:])
-            
+            # unshared_features_raw repeats all unshared features again and again :(
+            # unshared_features_final singles out unshared features to a list :)
             for x in unshared_features_raw:
                 if x not in unshared_features_final:
                     unshared_features_final.append(x)
 
-
-    def activation(unshared_features_final):
-        activation = 0
+    def weight(unshared_features_final):
+        weight = 0
         for unsharedFeature in unshared_features_final:
             try:
-                activation += dlist[unsharedFeature]
+                weight += dlist[unsharedFeature]
             except:
-                pass
-        return activation
+                weight += 0.1
+        return weight
 
 
-    similarity = m/total_feature - activation(unshared_features_final)
+    # similarity = m/total_feature - activation(unshared_features_final)
     
+    similarity = weight(unshared_features_final)
     return similarity
 
 def writedataframe(consonant,total_feature,dlist):
@@ -139,12 +141,22 @@ if __name__ == '__main__':
 
     # df = writedataframe(consonant,28,dlist)
     # print(df)
-    # print(simiarity('p',"pʼ", 28, dlist)) #0.1
-    # print(simiarity('p',"b", 28, dlist)) #0.2
-    # print(simiarity('p',"pʰ", 28, dlist)) #0.3
-    print(simiarity('q',"t͡sʼ", 28, dlist)) 
-    print(simiarity('qʼ',"t͡sʼ", 28, dlist)) 
-    print(simiarity('q',"t͡s", 28, dlist)) 
+    print(simiarity('p',"pʼ", dlist)) #0.1
+    print(simiarity('p',"b", dlist)) #0.2
+    print(simiarity('p',"pʰ", dlist)) #0.3
+    print(simiarity('q',"t͡sʼ", dlist)) 
+    print(simiarity('qʼ',"t͡sʼ", dlist)) 
+    print(simiarity('q',"t͡s", dlist)) 
+    print(simiarity('q',"t͡sʰ", dlist)) 
+    print(simiarity('q',"z", dlist)) 
+    print(simiarity("t͡s","ɡ", dlist)) #0.3
+    print(simiarity("t͡s","k", dlist)) #0.3
+    print(simiarity("t͡s","kʼ", dlist)) #0.3
+    # print(simiarity("k","m", dlist)) #0.3
+
+
+
+
     # print(similarity_etc)
 
     
@@ -154,3 +166,5 @@ if __name__ == '__main__':
     #             print(dlist[f_a]-dlist[f_b])    
     #         except:
     #             pass
+    #   When there is a three-way laryngeal contrasts on [voice], 
+    #   [cg], [sg], the contrasts between positive and negative values of these features are different.  
