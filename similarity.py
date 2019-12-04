@@ -141,17 +141,18 @@ if __name__ == '__main__':
 
     # df = writedataframe(consonant,28,dlist)
     # print(df)
-    print(simiarity('p',"pʼ", dlist)) #0.1
-    print(simiarity('p',"b", dlist)) #0.2
-    print(simiarity('p',"pʰ", dlist)) #0.3
-    print(simiarity('q',"t͡sʼ", dlist)) 
+    # print(simiarity('p',"pʼ", dlist)) #0.1
+    # print(simiarity('p',"b", dlist)) #0.2
+    # print(simiarity('p',"pʰ", dlist)) #0.3
     print(simiarity('qʼ',"t͡sʼ", dlist)) 
-    print(simiarity('q',"t͡s", dlist)) 
+    print(simiarity('q',"t͡sʼ", dlist)) 
     print(simiarity('q',"t͡sʰ", dlist)) 
-    print(simiarity('q',"z", dlist)) 
-    print(simiarity("t͡s","ɡ", dlist)) #0.3
-    print(simiarity("t͡s","k", dlist)) #0.3
-    print(simiarity("t͡s","kʼ", dlist)) #0.3
+    print(simiarity('q',"t͡s", dlist)) 
+
+    # print(simiarity('q',"z", dlist)) 
+    # print(simiarity("t͡s","ɡ", dlist)) #0.3
+    # print(simiarity("t͡s","k", dlist)) #0.3
+    # print(simiarity("t͡s","kʼ", dlist)) #0.3
     # print(simiarity("k","m", dlist)) #0.3
 
 
