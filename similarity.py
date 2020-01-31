@@ -93,12 +93,12 @@ def simiarity(segment1, segment2,dlist):
             try:
                 weight += dlist[unsharedFeature]
             except:
-                weight += 0.1
+                weight += 0
         return weight
 
 
     # similarity = m/total_feature - activation(unshared_features_final)
-    
+    print(unshared_features_final)
     similarity = weight(unshared_features_final)
     return similarity
 
@@ -138,6 +138,7 @@ if __name__ == '__main__':
              }    
     # consoant = [p,t,k,q,ʔ,b,d,ɡ,t͡s,t͡ʃ,f,s,ʃ,x,χ,h,z,ʒ,ʁ,m,n,r,j,l,w,i,y,u,e,ӕ,a,pʰ,pʼ,tʼ,tʰ,tʰʷ,tʷʼ,tʷ,t͡sʰ,t͡sʼ,t͡sʰʷ,t͡sʷʼ,t͡sʷ,sʷ,zʷ,t͡ʃʼ,t͡ʃʰ,kʰ,kʼ,kʷ,kʷʼ,kʰʷ,ɡʷ,χʷ,qʼ,qʰ,qʷ,qʷʼ,qʰʷ,ʁʷ]
     consonant = list(segsFeats.keys())
+    
 
     # df = writedataframe(consonant,28,dlist)
     # print(df)
@@ -147,7 +148,7 @@ if __name__ == '__main__':
     print(simiarity('qʼ',"t͡sʼ", dlist)) 
     print(simiarity('q',"t͡sʼ", dlist)) 
     print(simiarity('q',"t͡sʰ", dlist)) 
-    print(simiarity('q',"t͡s", dlist)) 
+    # print(simiarity('q',"t͡s", dlist)) 
 
     # print(simiarity('q',"z", dlist)) 
     # print(simiarity("t͡s","ɡ", dlist)) #0.3
