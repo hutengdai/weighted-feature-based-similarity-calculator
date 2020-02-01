@@ -112,7 +112,7 @@ def writedataframe(dlist, filepath):
 
     for x in inventory:
         for y in inventory:
-            sim_etc[y] = similarity(x, y, dlist, filepath)
+            sim_etc[y] = round(similarity(x, y, dlist, filepath),2)
         
         df.loc[x]= pd.Series(sim_etc)
         df.to_csv(r'similarity-matrix.csv')
