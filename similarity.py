@@ -138,8 +138,8 @@ if __name__ == '__main__':
             'voice' : 0.4,
             'sg' : 0.4,
              }    
-    # consonant = list(segs2Feats.keys())
-    # print(consonant)
+    pp.pprint(writedataframe(dlist, filepath))
+
 
     # consoant = [p,t,k,q,ʔ,b,d,ɡ,t͡s,t͡ʃ,f,s,ʃ,x,χ,h,z,ʒ,ʁ,m,n,r,j,l,w,i,y,u,e,ӕ,a,pʰ,pʼ,tʼ,tʰ,tʰʷ,tʷʼ,tʷ,t͡sʰ,t͡sʼ,t͡sʰʷ,t͡sʷʼ,t͡sʷ,sʷ,zʷ,t͡ʃʼ,t͡ʃʰ,kʰ,kʼ,kʷ,kʷʼ,kʰʷ,ɡʷ,χʷ,qʼ,qʰ,qʷ,qʷʼ,qʰʷ,ʁʷ]
     # c:/Users/huten/Desktop/Writing/Lezgian-GSC/modified-phoneme-distance-calculator/lezgian.txt
@@ -151,7 +151,6 @@ if __name__ == '__main__':
     # print(distance('p',"pʰ", dlist)) #0.3
     # print(distance('qʼ',"t͡sʼ", dlist)) 
     # print(similarity('tʰʷ',"ʁ", dlist, filepath)) 
-    pp.pprint(writedataframe(dlist, filepath))
 
     
     # print(distance('q',"t͡sʼ", dlist)) 
