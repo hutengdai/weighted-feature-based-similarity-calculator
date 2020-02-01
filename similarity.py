@@ -2,120 +2,127 @@ import re
 import sys
 import numpy as np
 import pandas as pd
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
+pprint.sorted = lambda x, key=None: x
+
 
 def segsFeats(featfilepath):
     '''
-    input argument: path to Features.txt.
-    output 1: segsFeats, a dictionary of segments along with all the feature values (+cont, 0str, etc.)
-    output 2: segsnozero, a dictionary of segments with only the non-zero feature values (+cont but not 0str)
-    output 3: features, a list of feature names
+    input argument: path to feats.txt.
+    output 1: segsFeats, a dictionary of segs along with all the feat values (+cont, 0str, etc.)
+    output 2: segsnozero, a dictionary of segs with only the non-zero feat values (+cont but not 0str)
+    output 3: feats, a list of feat names
 
-    the Features.txt file needs to be in the standard 2009 UCLAPL GUI format, i.e., tab separated, no 'word_boundary' segment defined in the list of segments, and the first line starts with an empty tab and then feature names.
+    the feats.txt file needs to be in the standard 2009 UCLAPL GUI format, i.e., tab separated, no 'word_boundary' seg defined in the list of segs, and the first line starts with an empty tab and then feat names.
     '''
-    with open(featfilepath, 'r', encoding='utf-8') as featurefile:
-        feat_file = featurefile.readlines()
-    features = feat_file.pop(0).lstrip("\t").rstrip("\n").split("\t")
+    with open(featfilepath, 'r', encoding='utf-8') as featfile:
+        feat_file = featfile.readlines()
+    feats = feat_file.pop(0).lstrip("\t").rstrip("\n").split("\t")
 
     segsFeats = {}
     for line in feat_file:
         line = line.rstrip("\n").split("\t")
         seg = line[0]
         segsFeats[seg] = []
-        for feature in features:
-            i = features.index(feature)
-            segsFeats[seg].append(str(line[i+1])+str(feature))
+        for feat in feats:
+            i = feats.index(feat)
+            segsFeats[seg].append(str(line[i+1])+str(feat))
             # tuple(segsFeats[seg])
     segsFeatsnozero = {}
     for line in feat_file:
         line = line.rstrip("\n").split("\t")
         seg = line[0]
         segsFeatsnozero[seg] = []
-        for feature in features:
-            i = features.index(feature)
+        for feat in feats:
+            i = feats.index(feat)
             if line[i+1] != '0':
-                segsFeatsnozero[seg].append(str(line[i+1])+str(feature))
-    if 'wb' not in features:
-        features.append('word_boundary')
+                segsFeatsnozero[seg].append(str(line[i+1])+str(feat))
+    if 'wb' not in feats:
+        feats.append('word_boundary')
     return(segsFeats)
 
 
-def wlist2feature(word, segsFeats):
+
+def sumW(unshared_final):
+    sumW = 0
+    for unsharedfeat in unshared_final:
+        try:
+            sumW += dlist[unsharedfeat]
+        except KeyError:
+            sumW += 1
+    return sumW
+
+def distance(seg1, seg2, dlist):
     '''
-        input argument: each line in a wlist and features (segsFeats)
-    output: res, a list of the lists of feature bundles;
+    Phonetic distance is the summed Ws of non-shared feats
     '''
-
-    res = []
-    for segment in word:
-        a = [segsFeats.get(segment)]
-        for val in a:
-            if val != None:
-                res.append(val)
-            else:
-                pass
-    return res
-
-
-def simiarity(segment1, segment2,dlist):
     m = 0
     n = 0
-    shared_features = []
-    a = segsFeats.get(segment1)
-    b = segsFeats.get(segment2)
-    # print("There are "+str(len(b))+" features in b")
-    for feature_a in a:
-        for feature_b in b:
-            if feature_a == feature_b:
+    shared_feats = []
+
+    for feat_a in seg1:
+        for feat_b in seg2:
+            if feat_a == feat_b:
                 m+=1
-                shared_features.append(feature_a)
+                shared_feats.append(feat_a)
             else:
                 n+=1
 
-    unshared_feature_value_a = np.setdiff1d(a,shared_features).tolist()
-    unshared_feature_value_b = np.setdiff1d(b,shared_features).tolist()
+    unshared_feat_value_a = np.setdiff1d(seg1,shared_feats).tolist()
+    unshared_feat_value_b = np.setdiff1d(seg2,shared_feats).tolist()
 
-    unshared_features_raw = []
-    unshared_features_final = []
+    unshared_raw = []
+    unshared_final = []
 
-    for feature_value_a in unshared_feature_value_a:
-        for feature_value_b in unshared_feature_value_b:
-            unshared_features_raw.append(feature_value_a[1:])
-            unshared_features_raw.append(feature_value_b[1:])
-            # unshared_features_raw repeats all unshared features again and again :(
-            # unshared_features_final singles out unshared features to a list :)
-            for x in unshared_features_raw:
-                if x not in unshared_features_final:
-                    unshared_features_final.append(x)
+    for feat_value_a in unshared_feat_value_a:
+        for feat_value_b in unshared_feat_value_b:
+            unshared_raw.append(feat_value_a[1:])
+            unshared_raw.append(feat_value_b[1:])
+            # unshared_raw repeats all unshared feats again and again :(
+            # unshared_final singles out unshared feats to a list :)
+            for x in unshared_raw:
+                if x not in unshared_final:
+                    unshared_final.append(x)
 
-    def weight(unshared_features_final):
-        weight = 0
-        for unsharedFeature in unshared_features_final:
-            try:
-                weight += dlist[unsharedFeature]
-            except:
-                weight += 0
-        return weight
+    # print(unshared_final)
+    distance = sumW(unshared_final)
+    return distance
 
+def similarity(seg1, seg2, dlist, filepath):
+    with open(filepath, 'r', encoding='utf-8') as featfile:
+        feat_file = featfile.readlines()
+        feats = feat_file.pop(0).lstrip("\t").rstrip("\n").split("\t")
+        segs2Feats = segsFeats(filepath)  
+    seg1 = segs2Feats.get(seg1)
+    seg2 = segs2Feats.get(seg2)
 
-    # similarity = m/total_feature - activation(unshared_features_final)
-    print(unshared_features_final)
-    similarity = weight(unshared_features_final)
+    d = distance(seg1, seg2, dlist) 
+    similarity = 1 - d/sumW(feats)
+    if similarity < 0:
+        print("similarity "+str(similarity))
     return similarity
 
-def writedataframe(consonant,total_feature,dlist):
-    similarity_etc = {}
-    df = pd.DataFrame(index=consonant, columns=consonant)
+def writedataframe(dlist, filepath):
+    sim_etc = {}
+    segs2Feats = segsFeats(filepath)  
+    inventory = list(segs2Feats.keys())
+    df = pd.DataFrame(index=inventory, columns=inventory)
     df = df.fillna(0)
-    for x in consonant:
-        for y in consonant:
-            similarity_etc[y] = simiarity(x,y,total_feature,dlist)
-        df.loc[x]= pd.Series(similarity_etc)
+
+    for x in inventory:
+        for y in inventory:
+            sim_etc[y] = similarity(x, y, dlist, filepath)
+        
+        df.loc[x]= pd.Series(sim_etc)
         df.to_csv(r'similarity-matrix.csv')
+    pp.pprint(df)
     return df                
+
                 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print("Usage: " + sys.argv[0] + " [-v] yourfeaturefile.txt")
+        print("Usage: " + sys.argv[0] + " [-v] yourfeatfile.txt")
         quit()  
 
     verbose = False
@@ -126,47 +133,39 @@ if __name__ == '__main__':
             
     filepath = sys.argv[i]
 
-    # with open("Features.txt", 'r', encoding='utf-8') as featurefile:
-    with open(filepath, 'r', encoding='utf-8') as featurefile:
-        feat_file = featurefile.readlines()
-        features = feat_file.pop(0).lstrip("\t").rstrip("\n").split("\t")
-        segsFeats = segsFeats(filepath)  
 
-    dlist = {'cg' : 0.1, 
-            'voice' : 0.2,
-            'sg' : 0.3,
+    dlist = {'cg' : 0.2, 
+            'voice' : 0.4,
+            'sg' : 0.4,
              }    
+    # consonant = list(segs2Feats.keys())
+    # print(consonant)
+
     # consoant = [p,t,k,q,ʔ,b,d,ɡ,t͡s,t͡ʃ,f,s,ʃ,x,χ,h,z,ʒ,ʁ,m,n,r,j,l,w,i,y,u,e,ӕ,a,pʰ,pʼ,tʼ,tʰ,tʰʷ,tʷʼ,tʷ,t͡sʰ,t͡sʼ,t͡sʰʷ,t͡sʷʼ,t͡sʷ,sʷ,zʷ,t͡ʃʼ,t͡ʃʰ,kʰ,kʼ,kʷ,kʷʼ,kʰʷ,ɡʷ,χʷ,qʼ,qʰ,qʷ,qʷʼ,qʰʷ,ʁʷ]
-    consonant = list(segsFeats.keys())
-    
+    # c:/Users/huten/Desktop/Writing/Lezgian-GSC/modified-phoneme-distance-calculator/lezgian.txt
 
     # df = writedataframe(consonant,28,dlist)
     # print(df)
-    # print(simiarity('p',"pʼ", dlist)) #0.1
-    # print(simiarity('p',"b", dlist)) #0.2
-    # print(simiarity('p',"pʰ", dlist)) #0.3
-    print(simiarity('qʼ',"t͡sʼ", dlist)) 
-    print(simiarity('q',"t͡sʼ", dlist)) 
-    print(simiarity('q',"t͡sʰ", dlist)) 
-    # print(simiarity('q',"t͡s", dlist)) 
-
-    # print(simiarity('q',"z", dlist)) 
-    # print(simiarity("t͡s","ɡ", dlist)) #0.3
-    # print(simiarity("t͡s","k", dlist)) #0.3
-    # print(simiarity("t͡s","kʼ", dlist)) #0.3
-    # print(simiarity("k","m", dlist)) #0.3
-
-
-
-
-    # print(similarity_etc)
+    # print(distance('p',"pʼ", dlist)) #0.1
+    # print(distance('p',"b", dlist)) #0.2
+    # print(distance('p',"pʰ", dlist)) #0.3
+    # print(distance('qʼ',"t͡sʼ", dlist)) 
+    # print(similarity('tʰʷ',"ʁ", dlist, filepath)) 
+    pp.pprint(writedataframe(dlist, filepath))
 
     
-    # for f_a in unshared_features_a:
-    #     for f_b in unshared_features_b:
-    #         try:
-    #             print(dlist[f_a]-dlist[f_b])    
-    #         except:
-    #             pass
-    #   When there is a three-way laryngeal contrasts on [voice], 
-    #   [cg], [sg], the contrasts between positive and negative values of these features are different.  
+    # print(distance('q',"t͡sʼ", dlist)) 
+    # print(similarity('q',"t͡sʼ", dlist, filepath)) 
+
+    # print(distance('q',"t͡sʰ", dlist)) 
+    # print(similarity('q',"t͡sʰ", dlist, filepath))
+
+    # print(distance('q',"t͡s", dlist))
+ 
+
+    # print(distance('q',"z", dlist)) 
+    # print(distance("t͡s","ɡ", dlist)) #0.3
+    # print(distance("t͡s","k", dlist)) #0.3
+    # print(distance("t͡s","kʼ", dlist)) #0.3
+    # print(distance("k","m", dlist)) #0.3
+
