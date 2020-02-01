@@ -1,5 +1,7 @@
 import re
 import sys
+import random
+
 import numpy as np
 import pandas as pd
 import pprint
@@ -136,17 +138,25 @@ if __name__ == '__main__':
             'sg' : 0.4,
             'sonorant' : 1,
             "consonant" : 1,
-            "nasal": 1,
-            "coronal": 0.1,
-            "labial": 0.1,
-            "labiodental": 0.1,
-            "dorsal": 0.1
-             }    
-    pp.pprint(writedataframe(dlist, filepath))
+            "nasal" : 1,
+            "coronal" : 0.1,
+            "labial" : 0.1,
+            "labiodental" : 0.1,
+            "dorsal" : 0.1
+            }    
 
+    # pp.pprint(writedataframe(dlist, filepath))
+
+    x = 1
+    y = 1
+    while x >= y:
+        x = random.uniform(0, 1)
+        y = random.uniform(0, 1)
+    print(x)
+    print(y)
+         
 
     # consoant = [p,t,k,q,ʔ,b,d,ɡ,t͡s,t͡ʃ,f,s,ʃ,x,χ,h,z,ʒ,ʁ,m,n,r,j,l,w,i,y,u,e,ӕ,a,pʰ,pʼ,tʼ,tʰ,tʰʷ,tʷʼ,tʷ,t͡sʰ,t͡sʼ,t͡sʰʷ,t͡sʷʼ,t͡sʷ,sʷ,zʷ,t͡ʃʼ,t͡ʃʰ,kʰ,kʼ,kʷ,kʷʼ,kʰʷ,ɡʷ,χʷ,qʼ,qʰ,qʷ,qʷʼ,qʰʷ,ʁʷ]
-    # c:/Users/huten/Desktop/Writing/Lezgian-GSC/modified-phoneme-distance-calculator/lezgian.txt
 
     # df = writedataframe(consonant,28,dlist)
     # print(df)
@@ -171,4 +181,3 @@ if __name__ == '__main__':
     # print(distance("t͡s","k", dlist)) #0.3
     # print(distance("t͡s","kʼ", dlist)) #0.3
     # print(distance("k","m", dlist)) #0.3
-
