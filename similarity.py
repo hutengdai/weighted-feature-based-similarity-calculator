@@ -42,15 +42,13 @@ def segsFeats(featfilepath):
         feats.append('word_boundary')
     return(segsFeats)
 
-
-
 def sumW(unshared_final):
     sumW = 0
     for unsharedfeat in unshared_final:
         try:
             sumW += dlist[unsharedfeat]
         except KeyError:
-            sumW += 1
+            sumW += 0
     return sumW
 
 def distance(seg1, seg2, dlist):
@@ -99,8 +97,7 @@ def similarity(seg1, seg2, dlist, filepath):
 
     d = distance(seg1, seg2, dlist) 
     similarity = 1 - d/sumW(feats)
-    if similarity < 0:
-        print("similarity "+str(similarity))
+ 
     return similarity
 
 def writedataframe(dlist, filepath):
@@ -137,6 +134,13 @@ if __name__ == '__main__':
     dlist = {'cg' : 0.2, 
             'voice' : 0.4,
             'sg' : 0.4,
+            'sonorant' : 1,
+            "consonant" : 1,
+            "nasal": 1,
+            "coronal": 0.1,
+            "labial": 0.1,
+            "labiodental": 0.1,
+            "dorsal": 0.1
              }    
     pp.pprint(writedataframe(dlist, filepath))
 
