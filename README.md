@@ -1,7 +1,9 @@
-# The calculator of phonemic similarity 
-This is a calculator of phonemic similarity I programmed for my project on gradient symbolic representation. 
+# The weighted feature-based calculator of phonological similarity 
+Hi! This is a  weighted feature-based calculator of phonological similarity.
 - Make sure you installed python 3.
+
 - Make sure you put 'yourfeaturefile.txt' inside of the master folder
+
 - The basic usage is: 
 1. Make your own featurefile 'yourfeaturefile.txt' as what I did in "lezgian.txt". [UCLA Pheatures Spreadsheet](https://linguistics.ucla.edu/people/hayes/120a/Pheatures/) is a nice tool. 
     - Choose segmental inventory in UCLA Pheatures Spreadsheet, obtain all features and copy+paste all to a Excel/Numbers/any spreadsheets. 
@@ -16,5 +18,5 @@ cd [your directory]
 python3 similarity.py yourfeaturefile.txt
 ``` 
 
-- If you want to commit to this program, remember only similarity.py matters. Other files are kept for my own research purpose.
+- If you want to commit to this program, only similarity.py matters. Other files are kept for my other research purpose.
 - Feel free to contact me (hutengdai[*]gmail.com) if you have any questions!
