@@ -17,6 +17,9 @@ cd [your directory]
 ```bash
 python3 similarity.py yourfeaturefile.txt
 ``` 
+4. The output will be a similarity-matrix.csv file with all the computed similarities.
+
+5. The easiest way to change the weights of features in the dlist of similarity.py.   
 
 - If you want to commit to this program, only similarity.py matters. Other files are kept for my other research purpose.
 - Feel free to contact me (hutengdai[*]gmail.com) if you have any questions!
