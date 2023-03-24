@@ -18,7 +18,7 @@ def segsFeats(featfilepath):
 
     the feats.txt file needs to be in the standard 2009 UCLAPL GUI format, i.e., tab separated, no 'word_boundary' seg defined in the list of segs, and the first line starts with an empty tab and then feat names.
     '''
-    with open(featfilepath, 'r', encoding='utf-8') as featfile:
+    with open(featfilepath, 'r', encoding='utf-8-sig') as featfile:
         feat_file = featfile.readlines()
     feats = feat_file.pop(0).lstrip("\t").rstrip("\n").split("\t")
 
@@ -29,6 +29,8 @@ def segsFeats(featfilepath):
         segsFeats[seg] = []
         for feat in feats:
             i = feats.index(feat)
+            # print(segsFeats)
+            # breakpoint()
             segsFeats[seg].append(str(line[i+1])+str(feat))
             # tuple(segsFeats[seg])
     segsFeatsnozero = {}
@@ -134,26 +136,26 @@ if __name__ == '__main__':
 
 
     dlist = {'cg' : 0.2, 
-            'voice' : 0.4,
+            'voice' : 0.1,
             'sg' : 0.4,
-            'sonorant' : 1,
-            "consonant" : 1,
-            "nasal" : 1,
+            'sonorant' : 0.1,
+            "consonant" : 0.1,
+            "nasal" : 0.1,
             "coronal" : 0.1,
             "labial" : 0.1,
             "labiodental" : 0.1,
             "dorsal" : 0.1
             }    
 
-    # pp.pprint(writedataframe(dlist, filepath))
+    pp.pprint(writedataframe(dlist, filepath))
 
-    x = 1
-    y = 1
-    while x >= y:
-        x = random.uniform(0, 1)
-        y = random.uniform(0, 1)
-    print(x)
-    print(y)
+    # x = 1
+    # y = 1
+    # while x >= y:
+    #     x = random.uniform(0, 1)
+    #     y = random.uniform(0, 1)
+    # print(x)
+    # print(y)
          
 
     # consoant = [p,t,k,q,ʔ,b,d,ɡ,t͡s,t͡ʃ,f,s,ʃ,x,χ,h,z,ʒ,ʁ,m,n,r,j,l,w,i,y,u,e,ӕ,a,pʰ,pʼ,tʼ,tʰ,tʰʷ,tʷʼ,tʷ,t͡sʰ,t͡sʼ,t͡sʰʷ,t͡sʷʼ,t͡sʷ,sʷ,zʷ,t͡ʃʼ,t͡ʃʰ,kʰ,kʼ,kʷ,kʷʼ,kʰʷ,ɡʷ,χʷ,qʼ,qʰ,qʷ,qʷʼ,qʰʷ,ʁʷ]
